@@ -1,0 +1,58 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Our Story | Muslimah Abayas{% endblock %}
+
+{% block content %}
+<!-- Story Banner -->
+<section class="catalog-banner" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('{% static 'store/images/abaya_hero.png' %}');">
+    <div class="catalog-banner-content">
+        <h1>Our Story & Philosophy</h1>
+        <p>Handcrafting timeless elegance and modest silhouettes since 2026</p>
+    </div>
+</section>
+
+<!-- Story Body Content -->
+<section class="philosophy-section">
+    <div class="container-narrow">
+        <h2 class="section-title text-center">The Art of Handcrafted Modesty</h2>
+        <div class="decor-line"></div>
+        <p class="philosophy-text" style="font-size: 1.25rem; font-style: normal; font-weight: 300; line-height: 1.8; text-align: justify; margin-bottom: 2rem;">
+            At Muslimah Abayas, modesty is not just a style choice—it is a lifestyle of grace and dignity. Every piece we create is designed to reflect timeless values, selecting only the finest, breathable silks and organic blends that drape effortlessly.
+        </p>
+        <p class="philosophy-text" style="font-size: 1.25rem; font-style: normal; font-weight: 300; line-height: 1.8; text-align: justify;">
+            Our journey began with a simple mission: to design elegant, premium abayas that respect traditional values while celebrating modern, sophisticated craftsmanship. Today, we work with master tailors to select unique fabrics, compile custom sizes, and deliver bespoke garments to women around the globe.
+        </p>
+    </div>
+
+    <!-- Value Cards -->
+    <div class="values-grid">
+        <div class="value-card">
+            <div class="value-icon"><i class="fa-solid fa-gem"></i></div>
+            <h3>Premium Fabrics</h3>
+            <p>From the purest Nida silk imported from Japan to breathable Turkish linen-mixes, we ensure comfort in every season.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <h3>Handcrafted Details</h3>
+            <p>Each design features precise hand-finished borders, intricate embroidery, and robust sewing tailored for durability.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon"><i class="fa-solid fa-scissors"></i></div>
+            <h3>Bespoke Sizing</h3>
+            <p>We respect that every body is unique. We offer custom alterations and custom length adjustments for all orders.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Story/Heritage Quote Section -->
+<section class="quote-section">
+    <div class="quote-container">
+        <i class="fa-solid fa-quote-left quote-icon"></i>
+        <blockquote>
+            "Modesty is the highest ornament of a woman. When modesty is combined with elegant craftsmanship, it turns dressing into a form of quiet confidence."
+        </blockquote>
+        <cite>— Founder, Muslimah Abayas</cite>
+    </div>
+</section>
+{% endblock %}

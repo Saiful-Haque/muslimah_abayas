@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Muslimah Abayas{% endblock %}</title>
+    <!-- SEO Meta tags -->
+    <meta name="description" content="{% block meta_description %}Discover elegant, premium handcrafted Muslimah Abayas. Classic black, modern pastels, luxury embroidery, and casual wear. Find your perfect fit.{% endblock %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/store.css' %}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="{% url 'intro_view' %}" class="logo">
+                <img src="{% static 'store/images/logo2.png' %}" alt="Muslimah Abayas Logo" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="{% url 'intro_view' %}" class="nav-link">Home</a>
+                <a href="{% url 'catalog_view' %}" class="nav-link">Catalog</a>
+                <a href="{% url 'story_view' %}" class="nav-link">Our Story</a>
+                <a href="{% url 'contact_view' %}" class="nav-link">Contact</a>
+            </nav>
+            <div class="nav-actions">
+                <div class="nav-socials">
+                    <a href="{{ contact_info.instagram }}" target="_blank" class="social-nav-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="{{ contact_info.facebook }}" target="_blank" class="social-nav-link" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+                <a href="{% url 'dashboard_view' %}" class="admin-btn" title="Admin Dashboard"><i class="fa-solid fa-user-gear"></i> Admin</a>
+            </div>
+        </div>
+    </header>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            <span class="msg-text">{{ message }}</span>
+            <button class="close-msg" onclick="this.parentElement.remove();">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer" id="about">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>MUSLIMAH ABAYAS</h3>
+                <p>Elegance meets modesty. We craft high-quality Abayas with premium fabrics, offering timeless styles for every occasion.</p>
+                <div class="social-links">
+                    <a href="{{ contact_info.instagram }}" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="{{ contact_info.facebook }}" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="{% url 'catalog_view' %}">Collection</a></li>
+                    <li><a href="{% url 'catalog_view' %}?category=classic">Classic Black</a></li>
+                    <li><a href="{% url 'catalog_view' %}?category=luxury">Luxury Embroidery</a></li>
+                    <li><a href="{% url 'catalog_view' %}?category=modern">Modern Pastels</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact" id="contact">
+                <h4>Contact Us</h4>
+                <p><i class="fa-solid fa-phone"></i> {{ contact_info.phone }}</p>
+                <p><i class="fa-solid fa-envelope"></i> {{ contact_info.email }}</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Muslimah Abayas. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="{% static 'store/js/store.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

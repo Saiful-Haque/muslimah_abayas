@@ -1,0 +1,213 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard | Muslimah Abayas{% endblock %}
+
+{% block content %}
+<section class="dashboard-banner" style="background-color: var(--primary); color: var(--text-light); padding: 4rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); text-align: center; position: relative;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+        <div style="text-align: left;">
+            <h1 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 500; letter-spacing: 1px; margin-bottom: 0.5rem;">Admin Dashboard</h1>
+            <p style="color: var(--accent); font-weight: 300; font-size: 1.05rem;">Manage your boutique collection and inquiries</p>
+        </div>
+        <div>
+            <a href="{% url 'dashboard_logout' %}" class="admin-btn" style="background-color: transparent; border-color: #E02424; color: #E02424;" onmouseover="this.style.backgroundColor='#E02424'; this.style.color='#FFFFFF';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#E02424';">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+            </a>
+        </div>
+    </div>
+</section>
+
+<section style="max-width: 1200px; margin: -2rem auto 4rem; padding: 0 2rem; position: relative; z-index: 5;">
+    <!-- Stats Row -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+        
+        <!-- Stat Card 1 -->
+        <div style="background-color: var(--bg-card); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 1.5rem;">
+            <div style="background-color: rgba(197, 168, 128, 0.1); color: var(--accent); font-size: 2rem; width: 60px; height: 60px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <div>
+                <h3 style="font-size: 2rem; font-weight: 600; color: var(--primary); line-height: 1;">{{ total_inquiries }}</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem;">Total Inquiries Received</p>
+            </div>
+        </div>
+
+        <!-- Stat Card 2 -->
+        <div style="background-color: var(--bg-card); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 1.5rem;">
+            <div style="background-color: rgba(197, 168, 128, 0.1); color: var(--accent); font-size: 2rem; width: 60px; height: 60px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-shirt"></i>
+            </div>
+            <div>
+                <h3 style="font-size: 2rem; font-weight: 600; color: var(--primary); line-height: 1;">{{ total_products }}</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem;">Abayas in Collection</p>
+            </div>
+        </div>
+
+        <!-- Stat Card 3 -->
+        <div style="background-color: var(--bg-card); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 1.5rem;">
+            <div style="background-color: rgba(197, 168, 128, 0.1); color: var(--accent); font-size: 2rem; width: 60px; height: 60px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </div>
+            <div>
+                <h4 style="font-size: 1.15rem; font-weight: 600; color: var(--primary); margin-bottom: 0.25rem;">Contact Settings</h4>
+                <a href="{% url 'update_contact_view' %}" class="view-more-link" style="font-size: 0.9rem; text-decoration: none;">
+                    Edit Contact Details <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Grid System -->
+    <div style="display: grid; grid-template-columns: 1fr; gap: 3rem;">
+        
+        <!-- Enquiries Section -->
+        <div style="background-color: var(--bg-card); border-radius: var(--radius); padding: 2.5rem; box-shadow: var(--shadow-md); border: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; margin-bottom: 1.5rem;">
+                <h2 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 500; color: var(--primary);">
+                    <i class="fa-regular fa-envelope" style="color: var(--accent); margin-right: 0.5rem;"></i> Customer Inquiries
+                </h2>
+                <span style="background-color: var(--primary); color: var(--text-light); font-size: 0.8rem; padding: 0.35rem 0.75rem; border-radius: 30px; font-weight: 500;">
+                    Latest First
+                </span>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-dark); font-weight: 600;">
+                            <th style="padding: 1rem 0.5rem;">Date</th>
+                            <th style="padding: 1rem 0.5rem;">Customer</th>
+                            <th style="padding: 1rem 0.5rem;">Contact Info</th>
+                            <th style="padding: 1rem 0.5rem;">Product Choice</th>
+                            <th style="padding: 1rem 0.5rem;">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for inquiry in inquiries %}
+                        <tr style="border-bottom: 1px solid var(--border-color); transition: var(--transition);" onmouseover="this.style.backgroundColor='#FBF9F6'" onmouseout="this.style.backgroundColor='transparent'">
+                            <td style="padding: 1rem 0.5rem; white-space: nowrap; color: var(--text-muted); font-size: 0.85rem;">
+                                {{ inquiry.created_at|date:"M d, Y" }}<br>{{ inquiry.created_at|date:"h:i A" }}
+                            </td>
+                            <td style="padding: 1rem 0.5rem; font-weight: 600; color: var(--primary);">
+                                {{ inquiry.name }}
+                            </td>
+                            <td style="padding: 1rem 0.5rem; font-size: 0.9rem; line-height: 1.4;">
+                                <i class="fa-regular fa-envelope" style="color: var(--text-muted); width: 16px;"></i> {{ inquiry.email }}<br>
+                                {% if inquiry.phone %}
+                                    <i class="fa-solid fa-phone" style="color: var(--text-muted); width: 16px;"></i> {{ inquiry.phone }}
+                                {% else %}
+                                    <span style="color: var(--text-muted); font-style: italic;">No Phone</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 1rem 0.5rem;">
+                                {% if inquiry.abaya %}
+                                    <a href="{% url 'detail_view' inquiry.abaya.slug %}" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 500;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                                        <i class="fa-solid fa-shirt"></i> {{ inquiry.abaya.name }}
+                                    </a>
+                                {% else %}
+                                    <span style="color: var(--text-muted); font-style: italic;">General Inquiry</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 1rem 0.5rem; color: var(--text-dark); max-width: 300px; word-wrap: break-word; font-size: 0.9rem;">
+                                {{ inquiry.message|linebreaksbr }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 3rem 0; color: var(--text-muted);">
+                                <i class="fa-regular fa-folder-open" style="font-size: 2.5rem; color: var(--border-color); margin-bottom: 1rem; display: block;"></i>
+                                No customer inquiries found in the database.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Collection Management Section -->
+        <div style="background-color: var(--bg-card); border-radius: var(--radius); padding: 2.5rem; box-shadow: var(--shadow-md); border: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                <h2 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 500; color: var(--primary);">
+                    <i class="fa-solid fa-shirt" style="color: var(--accent); margin-right: 0.5rem;"></i> Manage Collection
+                </h2>
+                <a href="{% url 'abaya_create_view' %}" class="cta-btn" style="padding: 0.6rem 1.5rem; font-size: 0.9rem; text-decoration: none;">
+                    <i class="fa-solid fa-plus" style="margin-right: 0.25rem;"></i> Add New Abaya
+                </a>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-dark); font-weight: 600;">
+                            <th style="padding: 1rem 0.5rem; width: 80px;">Image</th>
+                            <th style="padding: 1rem 0.5rem;">Name</th>
+                            <th style="padding: 1rem 0.5rem;">Category</th>
+                            <th style="padding: 1rem 0.5rem;">Fabric & Colors</th>
+                            <th style="padding: 1rem 0.5rem; text-align: center;">Featured</th>
+                            <th style="padding: 1rem 0.5rem; text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for abaya in abayas %}
+                        <tr style="border-bottom: 1px solid var(--border-color); transition: var(--transition);" onmouseover="this.style.backgroundColor='#FBF9F6'" onmouseout="this.style.backgroundColor='transparent'">
+                            <td style="padding: 1rem 0.5rem;">
+                                {% if abaya.image %}
+                                    <img src="{{ abaya.image.url }}" alt="{{ abaya.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border-color);">
+                                {% else %}
+                                    <div style="width: 50px; height: 50px; border-radius: 4px; border: 1px dashed var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-muted); background-color: var(--bg-light);">
+                                        <i class="fa-regular fa-image"></i>
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 1rem 0.5rem;">
+                                <a href="{% url 'detail_view' abaya.slug %}" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--primary)'">
+                                    {{ abaya.name }}
+                                </a>
+                            </td>
+                            <td style="padding: 1rem 0.5rem;">
+                                <span style="background-color: var(--bg-light); color: var(--text-dark); font-size: 0.8rem; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500; border: 1px solid var(--border-color);">
+                                    {{ abaya.get_category_display }}
+                                </span>
+                            </td>
+                            <td style="padding: 1rem 0.5rem; font-size: 0.9rem; line-height: 1.4;">
+                                <strong style="font-weight: 500;">Fabric:</strong> {{ abaya.fabric }}<br>
+                                <strong style="font-weight: 500;">Colors:</strong> {{ abaya.colors }}
+                            </td>
+                            <td style="padding: 1rem 0.5rem; text-align: center; color: var(--accent);">
+                                {% if abaya.is_featured %}
+                                    <i class="fa-solid fa-star" title="Featured on Intro Page"></i>
+                                {% else %}
+                                    <span style="color: var(--border-color);">&#8212;</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 1rem 0.5rem; text-align: right; white-space: nowrap;">
+                                <a href="{% url 'abaya_update_view' abaya.id %}" style="display: inline-block; background-color: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 0.35rem 0.75rem; border-radius: 4px; text-decoration: none; font-size: 0.8rem; font-weight: 500; margin-right: 0.5rem; transition: var(--transition);" onmouseover="this.style.backgroundColor='var(--accent)'; this.style.color='var(--primary)';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--accent)';">
+                                    <i class="fa-solid fa-pen"></i> Edit
+                                </a>
+                                <a href="{% url 'abaya_delete_view' abaya.id %}" style="display: inline-block; background-color: transparent; border: 1px solid #E02424; color: #E02424; padding: 0.35rem 0.75rem; border-radius: 4px; text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: var(--transition);" 
+                                   onclick="return confirm('Are you sure you want to delete \'{{ abaya.name }}\'? This action cannot be undone.');"
+                                   onmouseover="this.style.backgroundColor='#E02424'; this.style.color='#FFFFFF';" 
+                                   onmouseout="this.style.backgroundColor='transparent'; this.style.color='#E02424';">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 3rem 0; color: var(--text-muted);">
+                                <i class="fa-solid fa-store-slash" style="font-size: 2.5rem; color: var(--border-color); margin-bottom: 1rem; display: block;"></i>
+                                No abayas found in the catalog. Click "Add New Abaya" to start.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

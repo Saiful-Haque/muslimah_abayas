@@ -1,0 +1,131 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Contact Us | Muslimah Abayas{% endblock %}
+
+{% block content %}
+<!-- Contact Banner -->
+<section class="catalog-banner" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('{% static 'store/images/abaya_hero.png' %}');">
+    <div class="catalog-banner-content">
+        <h1>Contact Us</h1>
+        <p>Get in touch for bespoke sizing inquiries, custom orders, or product details</p>
+    </div>
+</section>
+
+<!-- Contact Grid Section -->
+<section class="contact-section-layout">
+    <!-- Left Info Pane -->
+    <div class="contact-info-pane">
+        <h2 class="section-title" style="margin-bottom: 1rem; text-align: left;">Reach Out To Us</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Have questions about our designs, fabric choices, or custom tailoring estimates? Send us a message, and our boutique assistant will get back to you within 24 hours.</p>
+
+        <!-- Dynamic direct contact channels -->
+        <div class="info-blocks" style="display: flex; gap: 3rem; margin-bottom: 2.5rem; flex-wrap: wrap; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem;">
+            <div class="info-block" style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div class="info-icon" style="color: var(--accent); font-size: 1.4rem;"><i class="fa-solid fa-phone"></i></div>
+                <div>
+                    <h4 style="font-weight: 600; font-size: 1rem; margin-bottom: 0.2rem; color: var(--primary);">Call Us</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">{{ contact_info.phone }}</p>
+                </div>
+            </div>
+
+            <div class="info-block" style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div class="info-icon" style="color: var(--accent); font-size: 1.4rem;"><i class="fa-solid fa-envelope"></i></div>
+                <div>
+                    <h4 style="font-weight: 600; font-size: 1rem; margin-bottom: 0.2rem; color: var(--primary);">Email</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">{{ contact_info.email }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Codes Grid in Left Pane -->
+        <div style="text-align: left;">
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 500; margin-bottom: 1.25rem; color: var(--primary);">Scan to Connect</h3>
+            
+            <div class="qr-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1.25rem;">
+                
+                <!-- Instagram QR -->
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                    <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+                        <span style="color: #c13584; font-size: 1rem;"><i class="fa-brands fa-instagram"></i></span>
+                        <span style="font-weight: 600; font-size: 0.85rem; color: var(--primary); letter-spacing: 0.5px;">Instagram</span>
+                    </div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data={{ contact_info.instagram|urlencode }}&color=c13584" alt="Instagram QR" style="width: 90px; height: 90px; display: block; margin-bottom: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); padding: 4px; background: #FFFFFF;">
+                    <a href="{{ contact_info.instagram }}" target="_blank" style="color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.75rem; font-family: var(--font-body); transition: var(--transition); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="qr-link" title="{{ contact_info.instagram_handle }}">
+                        {{ contact_info.instagram_handle }}
+                    </a>
+                </div>
+
+                <!-- Facebook QR -->
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                    <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+                        <span style="color: #1877f2; font-size: 1rem;"><i class="fa-brands fa-facebook"></i></span>
+                        <span style="font-weight: 600; font-size: 0.85rem; color: var(--primary); letter-spacing: 0.5px;">Facebook</span>
+                    </div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data={{ contact_info.facebook|urlencode }}&color=1877f2" alt="Facebook QR" style="width: 90px; height: 90px; display: block; margin-bottom: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); padding: 4px; background: #FFFFFF;">
+                    <a href="{{ contact_info.facebook }}" target="_blank" style="color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.75rem; font-family: var(--font-body); transition: var(--transition); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="qr-link" title="{{ contact_info.facebook_handle }}">
+                        {{ contact_info.facebook_handle }}
+                    </a>
+                </div>
+
+                <!-- Email QR -->
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                    <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+                        <span style="color: #ea4335; font-size: 1rem;"><i class="fa-regular fa-envelope"></i></span>
+                        <span style="font-weight: 600; font-size: 0.85rem; color: var(--primary); letter-spacing: 0.5px;">Email</span>
+                    </div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=mailto:{{ contact_info.email|urlencode }}&color=ea4335" alt="Email QR" style="width: 90px; height: 90px; display: block; margin-bottom: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); padding: 4px; background: #FFFFFF;">
+                    <a href="mailto:{{ contact_info.email }}" style="color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.75rem; font-family: var(--font-body); transition: var(--transition); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="qr-link" title="{{ contact_info.email }}">
+                        {{ contact_info.email }}
+                    </a>
+                </div>
+
+                <!-- WhatsApp QR -->
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                    <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+                        <span style="color: #25d366; font-size: 1rem;"><i class="fa-brands fa-whatsapp"></i></span>
+                        <span style="font-weight: 600; font-size: 0.85rem; color: var(--primary); letter-spacing: 0.5px;">WhatsApp</span>
+                    </div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=https://wa.me/{{ contact_info.clean_whatsapp }}&color=25d366" alt="WhatsApp QR" style="width: 90px; height: 90px; display: block; margin-bottom: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); padding: 4px; background: #FFFFFF;">
+                    <a href="https://wa.me/{{ contact_info.clean_whatsapp }}" target="_blank" style="color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.85rem; font-family: var(--font-body); transition: var(--transition); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="qr-link" title="{{ contact_info.whatsapp }}">
+                        {{ contact_info.whatsapp }}
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Form Pane -->
+    <div class="contact-form-pane" style="background-color: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 3rem; box-shadow: var(--shadow-md);">
+        <h3 class="form-title" style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 500; margin-bottom: 1.5rem;">Send a Message</h3>
+        <form action="{% url 'submit_inquiry' %}" method="POST" class="inquiry-form" style="padding: 0;">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="contact-user-name">Your Name *</label>
+                <input type="text" id="contact-user-name" name="name" required placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="contact-user-email">Email Address *</label>
+                <input type="email" id="contact-user-email" name="email" required placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="contact-user-phone">Phone Number</label>
+                <input type="tel" id="contact-user-phone" name="phone" placeholder="Enter your contact number">
+            </div>
+
+            <div class="form-group">
+                <label for="contact-user-message">Message *</label>
+                <textarea id="contact-user-message" name="message" required rows="5" placeholder="Write your question, inquiry, or custom alteration requests here..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-form-btn">Submit Inquiry</button>
+        </form>
+    </div>
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Admin Login | Muslimah Abayas{% endblock %}
+
+{% block content %}
+<section class="login-section" style="min-height: calc(100vh - 160px); display: flex; align-items: center; justify-content: center; padding: 2rem; background-color: var(--bg-light);">
+    <div class="login-card" style="width: 100%; max-width: 450px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 3rem; box-shadow: var(--shadow-md); text-align: center;">
+        
+        <div style="margin-bottom: 2rem;">
+            <div style="display: inline-block; background-color: var(--primary); padding: 0.75rem; border-radius: 50%; border: 1px solid var(--accent); margin-bottom: 1rem; color: var(--accent); font-size: 1.8rem; width: 60px; height: 60px; line-height: 42px;">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h2 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 500; color: var(--primary); margin-bottom: 0.5rem;">Admin Access</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Sign in to manage abayas and enquiries</p>
+        </div>
+
+        <form method="POST" style="text-align: left;">
+            {% csrf_token %}
+            
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="username" style="display: block; font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-dark);">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter username" 
+                       style="width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; outline: none; transition: var(--transition); font-family: var(--font-body); font-size: 0.95rem;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label for="password" style="display: block; font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-dark);">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter password" 
+                       style="width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; outline: none; transition: var(--transition); font-family: var(--font-body); font-size: 0.95rem;">
+            </div>
+
+            <button type="submit" class="cta-btn" style="width: 100%; border: none; font-size: 1rem; cursor: pointer; text-align: center;">
+                Log In <i class="fa-solid fa-arrow-right-to-bracket" style="margin-left: 0.5rem;"></i>
+            </button>
+        </form>
+
+        <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+            <a href="{% url 'intro_view' %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: var(--transition);" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
+                <i class="fa-solid fa-house" style="margin-right: 0.25rem;"></i> Return to Website
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    .form-group input:focus {
+        border-color: var(--accent) !important;
+        box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15);
+    }
+    @media (max-width: 576px) {
+        .login-card {
+            padding: 2rem 1.5rem !important;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,309 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Welcome | Muslimah Abayas{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Fullscreen Landing Hero */
+    .home-hero {
+        height: 100vh;
+        width: 100vw;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.7)), url('{% static 'store/images/abaya_hero.png' %}');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 7.5rem 2rem 3rem 2rem;
+        position: relative;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    /* Style global header as transparent overlay on homepage */
+    .header {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: transparent !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: none !important;
+        z-index: 100;
+    }
+
+    .header .nav-link {
+        color: rgba(255, 255, 255, 0.85) !important;
+    }
+
+    .header .nav-link:hover {
+        color: var(--accent) !important;
+    }
+
+    .header .social-nav-link {
+        color: rgba(255, 255, 255, 0.75) !important;
+    }
+
+    .header .social-nav-link:hover {
+        color: var(--accent) !important;
+    }
+
+    .header .admin-btn {
+        border-color: var(--accent) !important;
+        color: var(--accent) !important;
+    }
+
+    .header .admin-btn:hover {
+        background-color: var(--accent) !important;
+        color: var(--primary) !important;
+    }
+
+    /* Centered logo at the top */
+    .hero-top-logo {
+        animation: fadeInDown 1s ease-out;
+        margin-top: 1rem;
+    }
+    
+    .hero-top-logo img {
+        height: 150px;
+        width: auto;
+        mix-blend-mode: multiply;
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+        animation: floatLogo 5s ease-in-out infinite;
+    }
+
+    @keyframes floatLogo {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-12px); }
+        100% { transform: translateY(0px); }
+    }
+
+    /* Hero main heading/content */
+    .hero-center-content {
+        max-width: 800px;
+        margin-top: -4vh;
+        animation: fadeIn 1.2s ease-out;
+    }
+
+    .hero-center-content h1 {
+        font-family: var(--font-heading);
+        font-size: 4.8rem;
+        font-weight: 400;
+        letter-spacing: 4px;
+        background: linear-gradient(135deg, #FFFFFF 40%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: var(--accent);
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        margin-bottom: 1.25rem;
+        line-height: 1.2;
+    }
+
+    .hero-center-content p {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 300;
+        letter-spacing: 1px;
+    }
+
+    /* Landing actions side by side with icons */
+    .landing-actions {
+        display: flex;
+        gap: 2rem;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 4vh;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .action-card-btn {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 2rem 1.5rem;
+        border-radius: 12px;
+        color: var(--text-light);
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        transition: var(--transition);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .action-card-btn i {
+        font-size: 2.2rem;
+        color: var(--accent);
+        transition: var(--transition);
+    }
+
+    .action-card-btn span {
+        font-family: var(--font-body);
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .action-card-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: var(--accent);
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .action-card-btn:hover i {
+        transform: scale(1.1);
+        color: #FFFFFF;
+    }
+
+    /* Story Modal Specifics */
+    .story-modal-content {
+        max-width: 600px;
+    }
+    .story-modal-body {
+        padding: 2.5rem;
+        color: var(--text-dark);
+        max-height: 75vh;
+        overflow-y: auto;
+        text-align: left;
+    }
+    .story-modal-body h4 {
+        font-family: var(--font-heading);
+        font-size: 1.4rem;
+        color: var(--accent);
+        margin-bottom: 1rem;
+    }
+    .story-desc {
+        font-size: 0.98rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+        color: var(--text-muted);
+    }
+    .story-pillars {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .pillar-item h5 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .pillar-item h5 i {
+        color: var(--accent);
+    }
+    .pillar-item p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+    }
+
+    /* Keyframes */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+        .home-hero {
+            height: auto;
+            min-height: 100vh;
+            padding: 6rem 1rem 2rem 1rem;
+            overflow-y: auto;
+        }
+        .hero-top-logo img {
+            height: 90px;
+        }
+        .hero-center-content {
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        .hero-center-content h1 {
+            font-size: 2.2rem;
+        }
+        .hero-center-content p {
+            font-size: 1rem;
+        }
+        .landing-actions {
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+        .action-card-btn {
+            padding: 1.25rem 1.25rem;
+            gap: 0.5rem;
+        }
+        .action-card-btn i {
+            font-size: 1.5rem;
+        }
+        .action-card-btn span {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Fullscreen Landing Section -->
+<section class="home-hero">
+    <!-- Centered Logo at Top -->
+    <div class="hero-top-logo">
+        <a href="{% url 'intro_view' %}">
+            <img src="{% static 'store/images/logo2.png' %}" alt="Muslimah Abayas Logo">
+        </a>
+    </div>
+
+    <!-- Center Content -->
+    <div class="hero-center-content">
+        <h1>Muslimah Abayas</h1>
+        <p>A curated boutique of fine handcrafted Abayas, tailored for grace.</p>
+    </div>
+
+    <!-- Actions at the Bottom -->
+    <div class="landing-actions">
+        <!-- Explore Collection -->
+        <a href="{% url 'catalog_view' %}" class="action-card-btn">
+            <i class="fa-solid fa-compass"></i>
+            <span>Explore Collection</span>
+        </a>
+        
+        <!-- Our Story -->
+        <a href="{% url 'story_view' %}" class="action-card-btn">
+            <i class="fa-solid fa-scroll"></i>
+            <span>Our Story</span>
+        </a>
+    </div>
+</section>
+{% endblock %}

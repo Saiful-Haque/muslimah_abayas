@@ -1,0 +1,128 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Our Collection | Muslimah Abayas{% endblock %}
+
+{% block content %}
+<!-- Catalog Header Banner -->
+<section class="catalog-banner" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('{% static 'store/images/abaya_hero.png' %}');">
+    <div class="catalog-banner-content">
+        <h1>Our Full Collection</h1>
+        <p>Refined designs crafted for modern elegance and timeless modesty</p>
+    </div>
+</section>
+
+<!-- Main Catalog Container -->
+<section class="catalog-section" id="catalog">
+    <div class="catalog-header">
+        <h2 class="section-title">The Collection</h2>
+        <p class="section-subtitle">Refining modesty with premium fabrics and detailed craftsmanship.</p>
+    </div>
+
+    <!-- Controls Panel -->
+    <div class="controls-panel">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Search abayas...">
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-label">Category:</span>
+            <div class="category-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                {% for code, name in categories %}
+                <button class="filter-btn" data-filter="{{ code }}">{{ name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Sort panel without price -->
+        <div class="sort-price-row" style="display: none;">
+            <div class="sort-container">
+                <select id="sort-select">
+                    <option value="newest" selected>Newest Arrival</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" id="products-grid">
+        {% for abaya in abayas %}
+        <div class="product-card" data-category="{{ abaya.category }}" data-name="{{ abaya.name|lower }}" data-date="{{ abaya.id }}">
+            <div class="product-image">
+                {% if abaya.image %}
+                    <img src="{{ abaya.image.url }}" alt="{{ abaya.name }}">
+                {% else %}
+                    <div class="no-image"><i class="fa-regular fa-image"></i></div>
+                {% endif %}
+                <div class="product-tag">{{ abaya.get_category_display }}</div>
+                <div class="product-actions">
+                    <a href="{% url 'detail_view' abaya.slug %}" class="action-btn" title="View Details"><i class="fa-solid fa-eye"></i></a>
+                    <button class="action-btn open-inquiry-modal" data-id="{{ abaya.id }}" data-name="{{ abaya.name }}" title="Inquire Now"><i class="fa-solid fa-envelope"></i></button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3><a href="{% url 'detail_view' abaya.slug %}">{{ abaya.name }}</a></h3>
+                <p class="product-fabric"><i class="fa-solid fa-gem"></i> {{ abaya.fabric }}</p>
+                <div class="product-footer">
+                    <a href="{% url 'detail_view' abaya.slug %}" class="view-more-link">View Details <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-catalog">
+            <i class="fa-solid fa-shop-slash"></i>
+            <p>No abayas available in the store right now. Check back soon!</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Empty state for JavaScript filters -->
+    <div id="no-results-msg" class="empty-catalog hidden">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <p>No abayas match your selected filters. Try adjusting search terms or parameters.</p>
+    </div>
+</section>
+
+<!-- Inquiry Modal -->
+<div id="inquiry-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Product Inquiry</h3>
+            <button class="close-modal-btn" id="close-modal">&times;</button>
+        </div>
+        <form action="{% url 'submit_inquiry' %}" method="POST" class="inquiry-form">
+            {% csrf_token %}
+            <input type="hidden" name="abaya_id" id="modal-abaya-id">
+            
+            <div class="form-group">
+                <label for="inquiry-abaya-name">Product Name</label>
+                <input type="text" id="inquiry-abaya-name" readonly class="readonly-input">
+            </div>
+
+            <div class="form-group">
+                <label for="user-name">Your Name *</label>
+                <input type="text" id="user-name" name="name" required placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="user-email">Email Address *</label>
+                <input type="email" id="user-email" name="email" required placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="user-phone">Phone Number</label>
+                <input type="tel" id="user-phone" name="phone" placeholder="Enter your contact number">
+            </div>
+
+            <div class="form-group">
+                <label for="user-message">Message *</label>
+                <textarea id="user-message" name="message" required rows="4" placeholder="Ask about sizing, availability, or customization options..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-form-btn">Submit Inquiry</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

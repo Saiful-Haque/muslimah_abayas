@@ -1,0 +1,193 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ abaya.name }} | Muslimah Abayas{% endblock %}
+{% block meta_description %}{{ abaya.description|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<section class="detail-container">
+    <div class="back-link-container">
+        <a href="{% url 'catalog_view' %}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Collection</a>
+    </div>
+
+    <div class="product-detail-layout">
+        <!-- Image Gallery -->
+        <div class="product-gallery">
+            <div class="main-image-wrapper">
+                {% if abaya.image %}
+                    <img src="{{ abaya.image.url }}" alt="{{ abaya.name }}" id="main-product-image">
+                {% else %}
+                    <div class="no-image-detail"><i class="fa-regular fa-image"></i></div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Product Specs and Action -->
+        <div class="product-specs-info">
+            <div class="detail-category">{{ abaya.get_category_display }}</div>
+            <h1 class="detail-title">{{ abaya.name }}</h1>
+            
+            <div class="detail-description">
+                <p>{{ abaya.description }}</p>
+            </div>
+
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <span class="spec-label">Fabric:</span>
+                    <span class="spec-value">{{ abaya.fabric }}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Available Colors:</span>
+                    <div class="color-chips">
+                        <span class="color-chip">{{ abaya.colors }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Size Chart Toggle -->
+            <div class="size-chart-section">
+                <button class="toggle-size-chart-btn" id="open-size-chart">
+                    <i class="fa-solid fa-ruler-combined"></i> View Size Guide
+                </button>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="detail-actions">
+                <button class="inquire-btn open-inquiry-modal" data-id="{{ abaya.id }}" data-name="{{ abaya.name }}">
+                    <i class="fa-solid fa-paper-plane"></i> Inquire About This Abaya
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    {% if related_abayas %}
+    <div class="related-products-section">
+        <h3 class="related-title">You May Also Like</h3>
+        <div class="related-grid">
+            {% for rel in related_abayas %}
+            <div class="related-card">
+                <a href="{% url 'detail_view' rel.slug %}">
+                    <div class="related-image">
+                        {% if rel.image %}
+                            <img src="{{ rel.image.url }}" alt="{{ rel.name }}">
+                        {% else %}
+                            <div class="no-image-rel"><i class="fa-regular fa-image"></i></div>
+                        {% endif %}
+                    </div>
+                    <div class="related-info">
+                        <h4>{{ rel.name }}</h4>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+<!-- Size Guide Modal -->
+<div id="size-chart-modal" class="modal-overlay hidden">
+    <div class="modal-content size-chart-content">
+        <div class="modal-header">
+            <h3>Abaya Size Guide</h3>
+            <button class="close-modal-btn" id="close-size-modal">&times;</button>
+        </div>
+        <div class="size-guide-body">
+            <p>Our abayas are designed with a relaxed, elegant fit. Standard length corresponds to your height. Choose your size based on the table below.</p>
+            <table class="size-guide-table">
+                <thead>
+                    <tr>
+                        <th>Size</th>
+                        <th>Recommended Height</th>
+                        <th>Abaya Length</th>
+                        <th>Bust Width</th>
+                        <th>Sleeve Length</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>52 (S)</td>
+                        <td>5'0" - 5'2" (152-157 cm)</td>
+                        <td>52 inches</td>
+                        <td>22 inches</td>
+                        <td>26 inches</td>
+                    </tr>
+                    <tr>
+                        <td>54 (M)</td>
+                        <td>5'2" - 5'4" (157-162 cm)</td>
+                        <td>54 inches</td>
+                        <td>23 inches</td>
+                        <td>27 inches</td>
+                    </tr>
+                    <tr>
+                        <td>56 (L)</td>
+                        <td>5'4" - 5'6" (162-167 cm)</td>
+                        <td>56 inches</td>
+                        <td>24 inches</td>
+                        <td>28 inches</td>
+                    </tr>
+                    <tr>
+                        <td>58 (XL)</td>
+                        <td>5'6" - 5'8" (167-172 cm)</td>
+                        <td>58 inches</td>
+                        <td>25 inches</td>
+                        <td>29 inches</td>
+                    </tr>
+                    <tr>
+                        <td>60 (XXL)</td>
+                        <td>5'8" - 6'0" (172-183 cm)</td>
+                        <td>60 inches</td>
+                        <td>26 inches</td>
+                        <td>30 inches</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="size-guide-tips">
+                <p><strong>Note:</strong> Custom lengths and alterations are available on demand. Please mention your custom measurements in the inquiry form.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inquiry Modal (Shares layout with catalog, loaded on detail page too) -->
+<div id="inquiry-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Product Inquiry</h3>
+            <button class="close-modal-btn" id="close-modal">&times;</button>
+        </div>
+        <form action="{% url 'submit_inquiry' %}" method="POST" class="inquiry-form">
+            {% csrf_token %}
+            <input type="hidden" name="abaya_id" id="modal-abaya-id">
+            
+            <div class="form-group">
+                <label for="inquiry-abaya-name">Product Name</label>
+                <input type="text" id="inquiry-abaya-name" readonly class="readonly-input">
+            </div>
+
+            <div class="form-group">
+                <label for="user-name">Your Name *</label>
+                <input type="text" id="user-name" name="name" required placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="user-email">Email Address *</label>
+                <input type="email" id="user-email" name="email" required placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="user-phone">Phone Number</label>
+                <input type="tel" id="user-phone" name="phone" placeholder="Enter your contact number">
+            </div>
+
+            <div class="form-group">
+                <label for="user-message">Message *</label>
+                <textarea id="user-message" name="message" required rows="4" placeholder="Ask about sizing, availability, or customization options..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-form-btn">Submit Inquiry</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
